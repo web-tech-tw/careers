@@ -18,13 +18,13 @@
     </div>
     <div class="flex justify-center my-16">
       <button
-        class="flex mx-3 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-violet-100 bg-violet-700 hover:bg-violet-600 md:py-4 md:text-lg md:px-10"
+        class="flex mx-3 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-emerald-100 bg-emerald-700 hover:bg-emerald-600 md:py-4 md:text-lg md:px-10"
         @click="onClickGenerate"
       >
         生成
       </button>
       <button
-        class="flex mx-3 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-violet-700 bg-violet-100 hover:bg-violet-200 md:py-4 md:text-lg md:px-10"
+        class="flex mx-3 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 md:py-4 md:text-lg md:px-10"
         @click="onClickCopy"
       >
         {{ copyMessage }}
