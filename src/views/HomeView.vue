@@ -1,74 +1,78 @@
 <template>
-  <div>
-    <div class="mt-10 mx-auto py-10 max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-      <div class="sm:text-center lg:text-left">
-        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900">
-          <span class="block xl:inline">這裡是</span>
-          <span class="block text-indigo-600 xl:inline">前端 Web 模板</span>
-          <span class="block xl:inline">
-            <loading-circle-icon
-              class="inline-block h-8 w-8 ml-3 animate-spin text-indigo-300"
-            />
-          </span>
-        </h1>
-        <p class="mt-3 text-base text-gray-500">
-          Vite + Vue.js 3 + Tailwind CSS，為了快速發展專案而生，請自行修改內容。
-        </p>
-        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-          <div class="rounded-md shadow">
-            <button
-              class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-              @click="onClickHello"
-            >
-              Hello!
-            </button>
-          </div>
-          <div class="mt-3 sm:mt-0 sm:ml-3">
-            <a
-              href="https://github.com/web-tech-tw/template.inte"
-              class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
-            >
-              template.inte GitHub
-            </a>
-          </div>
-        </div>
-      </div>
+  <div class="mx-auto container my-5 px-9 py-5 justify-center">
+    <div
+      class="max-w-lg mx-auto rounded overflow-hidden shadow-sm px-3 py-5 my-16 bg-white"
+    >
+      <h2 class="font-semibold text-slate-900 text-lg">
+        隨機密碼
+      </h2>
+      <p class="font-normal text-slate-900 text-sm">
+        這是一個隨機密碼產生器，點擊下方按鈕即可產生一組隨機密碼。
+      </p>
+      <input
+        class="w-full my-5 rounded-full bg-slate-100 px-2 py-1 text-md font-semibold text-slate-700"
+        type="text"
+        readonly
+        :value="randomMessage"
+      >
     </div>
-    <div class="mt-10 mx-auto py-10 max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-      <div class="sm:text-center lg:text-right">
-        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900">
-          <span class="block xl:inline">你是</span>
-          <span class="block text-indigo-600 xl:inline">後端</span>
-          <span class="block xl:inline">工程師嗎？</span>
-        </h1>
-        <p class="mt-3 text-base text-gray-500">
-          你走錯地方了，下方連結才是後端 API 模板。
-        </p>
-        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-end">
-          <div class="rounded-md shadow">
-            <a
-              href="https://github.com/web-tech-tw/template.recv"
-              class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-            >
-              template.recv GitHub
-            </a>
-          </div>
-        </div>
-      </div>
+    <div class="flex justify-center my-16">
+      <button
+        class="flex mx-3 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-violet-100 bg-violet-700 hover:bg-violet-600 md:py-4 md:text-lg md:px-10"
+        @click="onClickGenerate"
+      >
+        生成
+      </button>
+      <button
+        class="flex mx-3 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-violet-700 bg-violet-100 hover:bg-violet-200 md:py-4 md:text-lg md:px-10"
+        @click="onClickCopy"
+      >
+        {{ copyMessage }}
+      </button>
     </div>
   </div>
-  <toast-modal v-model="toastMessage" />
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, computed, onMounted} from "vue";
 
-import LoadingCircleIcon from "../components/LoadingCircleIcon.vue";
-import ToastModal from "../components/ToastModal.vue";
+const isCopied = ref(false);
+const randomMessage = ref("");
+const copyMessage = computed(
+  () => isCopied.value ? "已複製" : "複製",
+);
 
-const toastMessage = ref("");
-
-const onClickHello = () => {
-  toastMessage.value = "Hello!";
+const generateRandomString = () => {
+  const randomNumberRaw = Math.random()**2;
+  const randomNumber = randomNumberRaw * (5000**2);
+  return randomNumber.toString(16);
 };
+
+const onClickGenerate = () => {
+  randomMessage.value = generateRandomString();
+};
+
+const onClickCopy = async () => {
+  if (!navigator.clipboard) {
+    alert("您的瀏覽器不支援複製功能，請手動複製");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.
+      writeText(randomMessage.value);
+
+    isCopied.value = true;
+    setTimeout(() => {
+      isCopied.value = false;
+    }, 3000);
+  } catch (e) {
+    console.error(e);
+    alert("複製失敗，請手動複製");
+  }
+};
+
+onMounted(() => {
+  onClickGenerate();
+});
 </script>

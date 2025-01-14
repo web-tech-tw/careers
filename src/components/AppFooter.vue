@@ -1,7 +1,7 @@
 <template>
   <footer class="mt-16 pb-16 text-sm leading-6">
     <div class="max-w-7xl mx-auto mt-11 divide-y divide-gray-200 px-4 sm:px-6 md:px-8">
-      「template.inte」是前端 Web 通用模板，請自行修改內容。
+      「IT Tools」是一個免費提供大眾使用的工具網站，提供各種線上工具，讓使用者能夠更快速地完成工作。
     </div>
     <div class="max-w-7xl mx-auto mt-5 divide-y divide-gray-200 px-4 sm:px-6 md:px-8 text-sky-700">
       <a
