@@ -43,9 +43,11 @@ const copyMessage = computed(
 );
 
 const generateRandomString = () => {
-  const randomNumberRaw = Math.random()**2;
-  const randomNumber = randomNumberRaw * (5000**2);
-  return randomNumber.toString(16);
+  const length = 16;
+  const bufferValue = new Uint8Array(length);
+  window.crypto.getRandomValues(bufferValue);
+  const retVal = String.fromCharCode.apply(null, bufferValue);
+  return btoa(retVal).substring(0, length);
 };
 
 const onClickGenerate = () => {
